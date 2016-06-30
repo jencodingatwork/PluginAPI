@@ -1,0 +1,98 @@
+---
+# This is a sample Swagger spec, describing a simple API as a starting point.
+swagger: "2.0"
+info:
+  description: "This is an example of a simple API"
+  version: "1.0.0"
+  title: "Swagger Example"
+host: localhost:8080
+basePath: /api
+
+# Tags organize operations into groups for presentation in the Swagger UI.
+# Each tag has an optional description, which the Swagger UI will display in 
+# the tag group header.
+tags:
+- name: "Plugin"
+  description: "the Plugin to use for data processing"
+
+paths:
+  /Plugin:
+    post:
+      tags:
+        - Plugin
+      summary: Upload Plugin
+      description: This can only be done by the logged in user.
+      operationId: createPlugin
+      produces:
+        - application/json
+        - application/xml
+        - application/avro
+      parameters:
+        - in: formData
+          name: json
+          description: Uploaded Plugin
+          required: true
+          type: string
+        - in: formData
+          name: jarFile
+          description: Jar File to upload
+          required: true
+          type: file
+        - in: formData
+          name: configFile
+          description: config File to upload
+          required: true
+          type: file
+      responses:
+        default:
+          description: successful operation
+  /Plugin/{analyticID}:
+    get:
+      tags:
+        - Plugin
+      summary: Get Plugin by Plugin ID
+      description: ""
+      operationId: getPluginByID
+      produces:
+        - application/json
+        - application/xml
+        - application/avro
+      parameters:
+        - in: path
+          name: analyticID
+          description: The ID for the Plugin that needs to be fetched.
+          required: true
+          type: string
+        - in: query
+          name: datatype
+          description: The type of data to return.
+          required: false
+          type: string
+      responses:
+        "404":
+          description: Plugin not found
+        "200":
+          description: successful operation
+          schema:
+            $ref: "#/definitions/Plugin"
+        "400":
+          description: Invalid Plugin ID supplied
+
+# The definitions section contains a set of named Schema Objects.  Each schema
+# object describes a reusable data type, which can be reference by name.
+definitions:
+  Plugin:
+    type: object
+    properties:
+      analyticID:
+        type: string
+      status:
+        type: string
+        format: enum
+        description: Plugin Status
+      schemaID:
+        type: string
+      jarFileName: 
+        type: string
+      configFileName:
+        type: string         
