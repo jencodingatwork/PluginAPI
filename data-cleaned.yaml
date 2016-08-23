@@ -1,0 +1,48 @@
+---
+swagger: "2.0"
+info:
+  title: "Data Service"
+  version: "v1"
+  description: "Services involved with discovering data"
+basePath: /v1/data
+
+# Tags organize operations into groups for presentation in the Swagger UI.
+# Each tag has an optional description, which the Swagger UI will display in 
+# the tag group header.
+tags:
+- name: "data"
+  description: "Information obtained from a website, plugin output, or other electronic data source"
+
+paths: 
+  /discovery/content:
+    get:
+      tags:
+      - "data"
+      summary: ""
+      description: "Get the data from the specified directory from the data store"
+      operationId: "queryData"
+      parameters:
+      - name: "directory"
+        in: "query"
+        description: "the directory from which to return the files"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid directory supplied"
+    get:
+      tags:
+      - "data"
+      summary: ""
+      description: "Get the data from the specified urls from the data store"
+      operationId: "queryDataURLs"
+      parameters:
+      - name: "URLlist"
+        in: "body"
+        description: "List of URLs to search for in the form of a JSON Array"
+        required: true
+      responses:
+        200:
+          description: "successful operation"
